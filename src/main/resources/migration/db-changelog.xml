@@ -1,0 +1,62 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+                http://www.liquibase.org/xml/ns/dbchangelog
+                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="viktar.kaminski@gmail.com" id="USER_TABLE_1">
+        <createTable tableName="User">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="ENUM('ROLE_SUPER_USER','ROLE_CUSTOMER_USER')">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="viktar.kaminski@gmail.com" id="BUSINESS_CARD_TABLE_1">
+        <createTable tableName="Discount">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints foreignKeyName="fk_user" references="User(id)"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiration_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet author="viktar.kaminski@gmail.com" id="TEST_USER_0">
+        <insert tableName="User">
+            <column name="username" value="super"/>
+            <column name="password" value="$2a$12$okSVs3YlauYNtPWbO7H3X.aTEfZl9.S0NA62KiN3rWY.63QJEEPRm"/>
+            <column name="role" value="ROLE_SUPER_USER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="viktar.kaminski@gmail.com" id="TEST_USER_1">
+        <insert tableName="User">
+            <column name="username" value="customer"/>
+            <column name="password" value="$2a$12$XNqaAkvOQjgbuUqe6I1Gv.snHRt9NiO6odTKxKhtxy/MwL4QAKazG"/>
+            <column name="role" value="ROLE_CUSTOMER_USER"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
